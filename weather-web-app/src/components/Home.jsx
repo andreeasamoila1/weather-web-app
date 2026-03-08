@@ -3,16 +3,22 @@ import Navbar from "./Navbar";
 import { Col, Container, Row } from "react-bootstrap";
 import { GeoAltFill, SunriseFill, SunsetFill } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { selectLoading, selectWeather } from "../redux/reducers/weatherReducer";
+import {
+  selectForecast,
+  selectLoading,
+  selectWeather
+} from "../redux/reducers/weatherReducer";
 import { fetchWeatherByCoords } from "../redux/actions/weatherActions";
 import { useGeolocated } from "react-geolocated";
 import { DropletFill, Wind, Thermometer } from "react-bootstrap-icons";
 import { Spinner } from "react-bootstrap";
+import { getTimeOfDay } from "../utils/timeOfDay";
 
 const Home = () => {
   const dispatch = useDispatch();
   const weather = useSelector(selectWeather);
   const loading = useSelector(selectLoading);
+  const forecast = useSelector(selectForecast);
 
   const { coords } = useGeolocated({
     positionOptions: { enableHighAccuracy: true },
@@ -25,9 +31,29 @@ const Home = () => {
       );
     }
   }, [coords, dispatch]);
+  const timeOfDay = getTimeOfDay(weather);
 
+  const getDailyForecast = () => {
+    if (!forecast) return [];
+    const seen = new Set();
+    const todayStr = new Date().toLocaleDateString();
+
+    const todayItem = forecast.list.find(
+      (item) => new Date(item.dt * 1000).toLocaleDateString() === todayStr
+    );
+
+    const futureDays = forecast.list.filter((item) => {
+      const date = new Date(item.dt * 1000).toLocaleDateString();
+      if (date === todayStr || seen.has(date)) return false;
+      seen.add(date);
+      return true;
+    });
+
+    const result = todayItem ? [todayItem, ...futureDays] : futureDays;
+    return result.slice(0, 6);
+  };
   return (
-    <div>
+    <div className={`weather-root theme-${timeOfDay}`}>
       <Navbar />
 
       <div className="weather-content">
@@ -112,7 +138,6 @@ const Home = () => {
                     ))}
                   </Row>
                 </Col>
-
                 <Col
                   xs={6}
                   md={4}
@@ -125,7 +150,6 @@ const Home = () => {
                     style={{ maxWidth: "260px" }}
                   />
                 </Col>
-
                 <Col
                   xs={6}
                   md={4}
@@ -138,6 +162,7 @@ const Home = () => {
                     {Math.round(weather.main.temp_min)}° /{" "}
                     {Math.round(weather.main.temp_max)}°
                   </div>
+
                   <div className="wind-pressure mb-4 text-center text-md-end d-none d-md-block">
                     <div>
                       WIND <span>{weather.wind.speed} M/S</span>
@@ -192,6 +217,122 @@ const Home = () => {
                   </div>
                 </Col>
               </Row>
+              <Row className="g-2 mt-3 d-md-none">
+                {[
+                  {
+                    icon: <DropletFill />,
+                    label: "Humidity",
+                    value: `${weather.main.humidity}%`
+                  },
+                  {
+                    icon: <Wind />,
+                    label: "Visibility",
+                    value: `${(weather.visibility / 1000).toFixed(1)} km`
+                  },
+                  {
+                    icon: <Wind />,
+                    label: "Wind",
+                    value: `${weather.wind.speed} m/s`
+                  },
+                  {
+                    icon: <Thermometer />,
+                    label: "Cloud Cover",
+                    value: `${weather.clouds.all}%`
+                  },
+                  {
+                    icon: <Thermometer />,
+                    label: "Feels Like",
+                    value: `${weather.main.feels_like}°C`
+                  },
+                  {
+                    icon: <Thermometer />,
+                    label: "Pressure",
+                    value: `${weather.main.pressure} hPa`
+                  }
+                ].map(({ icon, label, value }) => (
+                  <Col key={label} xs={6}>
+                    <div className="stat-card">
+                      <span className="stat-icon">{icon}</span>
+                      <span className="stat-label">{label}</span>
+                      <span className="stat-value">{value}</span>
+                    </div>
+                  </Col>
+                ))}
+              </Row>
+              <div className="sun-card mt-3 d-md-none justify-content-center">
+                <div className="d-flex flex-column align-items-center">
+                  <SunriseFill
+                    style={{
+                      fontSize: "1.6rem",
+                      color: "rgba(255,210,80,0.9)"
+                    }}
+                  />
+                  <div className="sun-time">
+                    {new Date(weather.sys.sunrise * 1000).toLocaleTimeString(
+                      [],
+                      { hour: "2-digit", minute: "2-digit" }
+                    )}
+                  </div>
+                  <div className="sun-label">Sunrise</div>
+                </div>
+                <div className="sun-divider" />
+                <div className="d-flex flex-column align-items-center">
+                  <SunsetFill
+                    style={{
+                      fontSize: "1.6rem",
+                      color: "rgba(180,200,255,0.9)"
+                    }}
+                  />
+                  <div className="sun-time">
+                    {new Date(weather.sys.sunset * 1000).toLocaleTimeString(
+                      [],
+                      { hour: "2-digit", minute: "2-digit" }
+                    )}
+                  </div>
+                  <div className="sun-label">Sunset</div>
+                </div>
+              </div>
+              {forecast && (
+                <div className="mt-5">
+                  <div className="section-label">Next 5 Days</div>
+                  <Row className="g-3">
+                    {getDailyForecast().map((item) => (
+                      <Col key={item.dt} xs={6} sm={4} md={4} lg={2}>
+                        <div className="forecast-card">
+                          <div className="forecast-date">
+                            {new Date(item.dt * 1000).toLocaleDateString(
+                              "en-GB",
+                              {
+                                weekday: "short",
+                                day: "numeric",
+                                month: "short"
+                              }
+                            )}
+                          </div>
+                          <img
+                            src={`https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
+                            alt={item.weather[0].description}
+                            width={48}
+                          />
+                          <div className="forecast-desc">
+                            {item.weather[0].description}
+                          </div>
+                          <div className="forecast-temp-max">
+                            {Math.round(item.main.temp_max)}°
+                          </div>
+                          <div className="forecast-temp-min">
+                            {Math.round(item.main.temp_min)}°
+                          </div>
+                          <div className="forecast-humidity">
+                            <DropletFill className="me-1" />
+                            {item.main.humidity}%
+                          </div>
+                        </div>
+                      </Col>
+                    ))}
+                  </Row>
+                </div>
+              )}
             </>
           )}
         </Container>
