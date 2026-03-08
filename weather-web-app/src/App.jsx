@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
+import Settings from "./components/Settings";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       >
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </BrowserRouter>
     </Provider>
