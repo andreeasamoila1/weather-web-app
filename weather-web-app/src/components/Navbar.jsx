@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { Container, Nav, Navbar } from "react-bootstrap";
-import { CloudyFill } from "react-bootstrap-icons";
+import { Button, Container, Form, Nav, Navbar } from "react-bootstrap";
+import { CloudyFill, Search } from "react-bootstrap-icons";
+import { useDispatch } from "react-redux";
+import { fetchWeatherByCity } from "../redux/actions/weatherActions.js";
 
 const WeatherNavbar = () => {
+  const dispatch = useDispatch();
+  const [city, setCity] = useState("");
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
@@ -21,6 +25,15 @@ const WeatherNavbar = () => {
     month: "short",
     day: "numeric"
   });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (city.trim()) {
+      dispatch(fetchWeatherByCity(city.trim()));
+      setCity("");
+    }
+  };
+
   return (
     <Navbar expand="lg" className="mx-2 mx-md-4 p-0">
       <Container fluid className="py-3 px-2">
@@ -41,6 +54,18 @@ const WeatherNavbar = () => {
             </div>
             <div className="fs-5 lh-1">{formattedDay}</div>
           </div>
+          <Form onSubmit={handleSubmit} className="d-flex gap-2 my-2 my-lg-0">
+            <Form.Control
+              className="bg-transparent border-0 "
+              type="text"
+              placeholder="Search..."
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+            <Button type="submit" variant="transparent" className="px-3 py-0 ">
+              <Search className="fs-3" />
+            </Button>
+          </Form>
         </Navbar.Collapse>
       </Container>
     </Navbar>
