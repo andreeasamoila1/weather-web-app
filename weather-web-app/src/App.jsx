@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Home from "./components/Home";
 
 const App = () => {
   return (
@@ -10,7 +11,7 @@ const App = () => {
     >
       <Navbar />
       <Routes>
-        <Route path="/" element={<div />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>
     // </Provider>

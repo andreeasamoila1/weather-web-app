@@ -1,0 +1,87 @@
+.temp-display {
+  font-size: clamp(4rem, 12vw, 9rem);
+  font-weight: 200;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.condition-display {
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  font-weight: 200;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.temp-range {
+  font-family: "DM Mono", monospace;
+  font-size: 0.85rem;
+
+  letter-spacing: 0.04em;
+}
+
+.weather-icon-wrap {
+  filter: drop-shadow(0 0 30px rgba(100, 150, 255, 0.5))
+    drop-shadow(0 0 60px rgba(80, 120, 255, 0.25));
+}
+
+.location-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(100, 140, 255, 0.12);
+  border: 1px solid rgba(100, 140, 255, 0.2);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+}
+
+.coords-text {
+  font-family: "DM Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  margin-top: 6px;
+}
+
+.sun-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.sun-divider {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 220, 100, 0.3),
+    rgba(200, 220, 255, 0.3)
+  );
+}
+
+.sun-label {
+  font-family: "DM Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.sun-time {
+  font-family: "DM Mono", monospace;
+  font-size: 0.9rem;
+  margin-top: 2px;
+}
+
+.wind-pressure {
+  font-family: "DM Mono", monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  line-height: 2;
+}
