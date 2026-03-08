@@ -40,17 +40,27 @@ const WeatherNavbar = () => {
     <Navbar expand="lg" className="mx-2 mx-md-4 p-0">
       <Container fluid className="py-3 px-2">
         <Navbar.Brand href="#" className="d-flex align-items-center text-white">
-          <CloudyFill className="cloud mx-2 fs-1 " />
+          <CloudyFill className="cloud mx-2 fs-1 text-white" />
           <span className="fs-3">Weather</span>
         </Navbar.Brand>
-        <Navbar.Toggle
-          aria-controls="main-nav"
-          className="border-0"
-          style={{ filter: "invert(1)" }}
-        />
+        <div className="d-flex align-items-center gap-2 d-lg-none">
+          <Button
+            variant="transparent"
+            className="px-2 py-0 text-white d-lg-none"
+            aria-label="Settings"
+            onClick={() => navigate("/settings")}
+          >
+            <Gear className="fs-3" />
+          </Button>
+          <Navbar.Toggle
+            aria-controls="main-nav"
+            className="border-0"
+            style={{ filter: "invert(1)" }}
+          />
+        </div>
         <Navbar.Collapse id="main-nav">
           <Nav className="me-auto" />
-          <div className="d-none d-lg-flex align-items-center gap-4 me-4 ">
+          <div className="d-none d-lg-flex align-items-center gap-4 me-4 text-white">
             <div className="fs-5 lh-1">
               {formattedHHMM} <small className="fs-6">{formattedAmPm}</small>
             </div>
@@ -58,7 +68,7 @@ const WeatherNavbar = () => {
           </div>
           <Form onSubmit={handleSubmit} className="d-flex gap-2 my-2 my-lg-0">
             <Form.Control
-              className="bg-transparent border-0 "
+              className="bg-transparent border-0 text-white"
               type="text"
               placeholder="Search..."
               value={city}
