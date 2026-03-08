@@ -412,3 +412,73 @@ body {
   color: rgba(130, 180, 255, 0.7);
   margin-top: 8px;
 }
+
+.footer-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  margin-bottom: 1.5rem;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-icon {
+  font-size: 1.1rem;
+  color: rgba(130, 160, 255, 0.7);
+}
+
+.footer-brand-name {
+  font-family: "Mona Sans", sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.footer-center {
+  font-family: "DM Mono", monospace;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.footer-center span {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-copy {
+  font-family: "DM Mono", monospace;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.footer-link {
+  font-family: "DM Mono", monospace;
+  font-size: 0.72rem;
+  color: rgba(130, 160, 255, 0.5);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: rgba(130, 160, 255, 0.9);
+}

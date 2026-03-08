@@ -77,6 +77,10 @@ const Settings = () => {
                   <CodeSlash /> Source
                 </a>
               </div>
+              <div className="text-center coords-text settings-footer-note">
+                © {new Date().getFullYear()} — Built with React & OpenWeather
+                API
+              </div>
             </Col>
           </Row>
         </Container>

@@ -13,6 +13,7 @@ import { useGeolocated } from "react-geolocated";
 import { DropletFill, Wind, Thermometer } from "react-bootstrap-icons";
 import { Spinner } from "react-bootstrap";
 import { getTimeOfDay } from "../utils/timeOfDay";
+import Footer from "./Footer";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -337,6 +338,7 @@ const Home = () => {
           )}
         </Container>
       </div>
+      <Footer />
     </div>
   );
 };
