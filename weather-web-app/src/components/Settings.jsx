@@ -63,7 +63,7 @@ const Settings = () => {
                   <GeoAltFill /> OpenWeather
                 </a>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/andreeasamoila1/weather-web-app"
                   target="_blank"
                   rel="noreferrer"
                   className="settings-link d-flex align-items-center justify-content-center gap-2 p-3 stat-label"

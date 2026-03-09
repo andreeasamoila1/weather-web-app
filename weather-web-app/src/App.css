@@ -110,6 +110,7 @@ body {
   font-weight: 200;
   line-height: 1;
   letter-spacing: -0.03em;
+  text-shadow: 0 0 60px rgba(100, 140, 255, 0.4);
 }
 
 .condition-display {
@@ -117,12 +118,13 @@ body {
   font-weight: 200;
   line-height: 1;
   letter-spacing: -0.02em;
+  text-shadow: 0 0 40px rgba(100, 140, 255, 0.3);
 }
 
 .temp-range {
   font-family: "DM Mono", monospace;
   font-size: 0.85rem;
-
+  color: rgba(255, 255, 255, 0.4);
   letter-spacing: 0.04em;
 }
 
@@ -141,11 +143,13 @@ body {
   padding: 5px 14px;
   font-size: 0.8rem;
   letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .coords-text {
   font-family: "DM Mono", monospace;
   font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.35);
   letter-spacing: 0.04em;
   margin-top: 6px;
 }
@@ -175,6 +179,7 @@ body {
 .sun-label {
   font-family: "DM Mono", monospace;
   font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.35);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-top: 4px;
@@ -183,12 +188,14 @@ body {
 .sun-time {
   font-family: "DM Mono", monospace;
   font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
   margin-top: 2px;
 }
 
 .wind-pressure {
   font-family: "DM Mono", monospace;
   font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
   letter-spacing: 0.06em;
   line-height: 2;
 }
@@ -357,6 +364,10 @@ body {
   background: rgba(100, 140, 255, 0.1);
   color: rgba(130, 160, 255, 1);
 }
+.settings-footer-note {
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+}
 .forecast-card {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -412,7 +423,19 @@ body {
   color: rgba(130, 180, 255, 0.7);
   margin-top: 8px;
 }
-
+.section-label {
+  font-family: "DM Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.weather-footer {
+  position: relative;
+  z-index: 1;
+  padding: 0 2rem 2rem;
+}
 .footer-divider {
   border: none;
   border-top: 1px solid rgba(255, 255, 255, 0.07);
