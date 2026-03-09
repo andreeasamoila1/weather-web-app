@@ -21,10 +21,17 @@ const Home = () => {
   const loading = useSelector(selectLoading);
   const forecast = useSelector(selectForecast);
 
+  const LODI_COORDS = { lat: 45.3167, lon: 9.5 };
+
   const { coords } = useGeolocated({
     positionOptions: { enableHighAccuracy: true },
     userDecisionTimeout: 5000
   });
+
+  useEffect(() => {
+    dispatch(fetchWeatherByCoords(LODI_COORDS));
+  }, []);
+
   useEffect(() => {
     if (coords) {
       dispatch(
