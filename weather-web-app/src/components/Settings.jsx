@@ -6,11 +6,28 @@ import {
   GeoAltFill,
   Github
 } from "react-bootstrap-icons";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getTimeOfDay } from "../utils/timeOfDay";
+import { selectWeather } from "../redux/reducers/weatherReducer";
 
+/**
+ * Settings component
+ * Pagina delle impostazioni/info dell'applicazione.
+ * Mostra un riepilogo delle tecnologie usate nel progetto
+ * e link utili (OpenWeather, GitHub, Source).
+ * Non ha logica Redux: è una pagina puramente informativa/statica.
+ */
 const Settings = () => {
   const navigate = useNavigate();
 
+  // Leggo i dati meteo dallo store per calcolare il tema corrente,
+  // coerente con quello visualizzato nella Home
+  const weather = useSelector(selectWeather);
+  const timeOfDay = getTimeOfDay(weather);
+
+  // Lista delle info tecniche del progetto mostrate nella card centrale.
+  // Uso un array di oggetti per rendere il rendering dinamico e facile da aggiornare.
   const infos = [
     { label: "Versione", value: "1.0.0" },
     { label: "Framework", value: "React + Redux Toolkit" },
@@ -20,9 +37,13 @@ const Settings = () => {
   ];
 
   return (
-    <div className="weather-root theme-night">
+    // Il tema cambia dinamicamente in base all'ora del giorno,
+    // in modo da essere sempre coerente con lo sfondo della Home.
+    // Se i dati meteo non sono ancora disponibili, getTimeOfDay restituisce "night" come fallback.
+    <div className={`weather-root theme-${timeOfDay}`}>
       <div className="weather-content">
         <Container fluid className="px-3 px-md-5 py-4 text-white">
+          {/* Header della pagina: pulsante back + titolo */}
           <div className="d-flex align-items-center gap-3 mb-5">
             <button
               onClick={() => navigate("/")}
@@ -41,6 +62,9 @@ const Settings = () => {
 
           <Row className="justify-content-center ">
             <Col xs={12} md={7} lg={5}>
+              {/* Card con le info tecniche del progetto.
+                  Il bordo separatore tra le righe viene applicato
+                  a tutte tranne l'ultima tramite il check sull'indice. */}
               <div className="info-card mb-4">
                 {infos.map(({ label, value }, i) => (
                   <div
@@ -53,6 +77,7 @@ const Settings = () => {
                 ))}
               </div>
 
+              {/* Link rapidi: OpenWeather, GitHub del progetto e Source */}
               <div className="d-flex gap-3 mb-5 ">
                 <a
                   href="https://openweathermap.org"
@@ -77,6 +102,8 @@ const Settings = () => {
                   <CodeSlash /> Source
                 </a>
               </div>
+
+              {/* Footer della pagina con copyright dinamico */}
               <div className="text-center coords-text settings-footer-note">
                 © {new Date().getFullYear()} — Built with React & OpenWeather
                 API
