@@ -288,6 +288,12 @@ const Home = () => {
               {/* ── STATS E SUN CARD MOBILE ─────────────────────────────
                   Stesse informazioni della colonna desktop,
                   ma riposizionate sotto l'icona su schermi piccoli */}
+              <div className="d-flex d-md-none align-items-center justify-content-center mt-3 mb-1">
+                <div className="location-tag">
+                  <GeoAltFill style={{ color: "rgba(130,160,255,0.9)" }} />
+                  {weather.name.toUpperCase()}, {weather.sys.country}
+                </div>
+              </div>
               <Row className="g-2 mt-3 d-md-none">
                 {[
                   {
@@ -322,9 +328,18 @@ const Home = () => {
                   }
                 ].map(({ icon, label, value }) => (
                   <Col key={label} xs={6}>
-                    <div className="stat-card">
-                      <span className="stat-icon">{icon}</span>
-                      <span className="stat-label">{label}</span>
+                    <div
+                      className="stat-card"
+                      style={{
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                        gap: "4px"
+                      }}
+                    >
+                      <div className="d-flex align-items-center gap-2">
+                        <span className="stat-icon">{icon}</span>
+                        <span className="stat-label">{label}</span>
+                      </div>
                       <span className="stat-value">{value}</span>
                     </div>
                   </Col>
