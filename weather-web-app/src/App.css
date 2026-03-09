@@ -1,4 +1,9 @@
+/* Font principale dell'app importato da Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap");
+
+/* Reset base e font globale.
+   Il background sul body serve come colore di fallback
+   nel caso in cui i temi CSS non siano ancora stati applicati. */
 body {
   margin: 0;
   padding: 0;
@@ -6,10 +11,18 @@ body {
   font-family: "Mona Sans", sans-serif;
   background: rgb(112, 158, 211);
 }
+
+/* Override Bootstrap: forza il placeholder bianco semi-trasparente
+   nella barra di ricerca della Navbar */
 .form-control::placeholder {
   color: white !important;
   opacity: 0.7;
 }
+
+/* ── Layout radice ───────────────────────────────────────────────────
+   .weather-root è il contenitore principale di ogni pagina.
+   Usa flex column per spingere il Footer in fondo
+   anche quando il contenuto è scarso (min-height: 100vh). */
 .weather-root {
   font-family: "Mona Sans", sans-serif;
   min-height: 100vh;
@@ -19,6 +32,11 @@ body {
   overflow-x: hidden;
 }
 
+/* ::before e ::after sono i due "blob" luminosi decorativi
+   posizionati in alto-sinistra e basso-destra.
+   Sono fixed così rimangono fermi durante lo scroll.
+   Il colore viene sovrascritto da ciascun tema (vedi sotto).
+   pointer-events: none evita che interferiscano con i click. */
 .weather-root::before {
   content: "";
   position: fixed;
@@ -41,17 +59,21 @@ body {
   z-index: 0;
 }
 
+/* Il contenuto reale deve stare sopra i blob decorativi */
 .weather-content {
   position: relative;
   z-index: 1;
   flex: 1;
 }
 
+/* ── Glassmorphism ───────────────────────────────────────────────────
+   Stile "vetro" riutilizzabile per card generiche:
+   sfondo semi-trasparente + blur dello sfondo sottostante. */
 .glass-card {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px); /* Safari */
   border-radius: 20px;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.3),
@@ -68,7 +90,9 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
-/* ── Stat Cards ── */
+/* ── Stat Cards ──────────────────────────────────────────────────────
+   Card compatte usate per umidità, vento, pressione ecc.
+   Layout flex orizzontale: icona — label — valore */
 .stat-card {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -90,6 +114,7 @@ body {
   font-size: 1rem;
 }
 
+/* DM Mono per label e valori: coerenza visiva con stile "dashboard" */
 .stat-label {
   font-family: "DM Mono", monospace;
   font-size: 0.7rem;
@@ -105,6 +130,9 @@ body {
   font-weight: 400;
 }
 
+/* ── Temperatura e condizione ────────────────────────────────────────
+   clamp() per una tipografia fluida che scala tra mobile e desktop
+   senza breakpoint manuali */
 .temp-display {
   font-size: clamp(4rem, 12vw, 9rem);
   font-weight: 200;
@@ -128,6 +156,7 @@ body {
   letter-spacing: 0.04em;
 }
 
+/* Doppio drop-shadow sull'icona meteo per un effetto luminoso morbido */
 .weather-icon-wrap {
   filter: drop-shadow(0 0 30px rgba(100, 150, 255, 0.5))
     drop-shadow(0 0 60px rgba(80, 120, 255, 0.25));
@@ -154,6 +183,7 @@ body {
   margin-top: 6px;
 }
 
+/* ── Sun Card (alba/tramonto) ────────────────────────────────────────*/
 .sun-card {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -166,6 +196,7 @@ body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* Linea divisoria con gradiente dal colore alba al colore tramonto */
 .sun-divider {
   flex: 1;
   height: 1px;
@@ -200,10 +231,20 @@ body {
   line-height: 2;
 }
 
+/* I valori numerici (velocità vento, pressione) sono più luminosi
+   rispetto alle label per creare gerarchia visiva */
 .wind-pressure span {
   color: rgba(255, 255, 255, 0.9);
 }
 
+/* ── Temi dinamici ───────────────────────────────────────────────────
+   Ogni tema sovrascrive il background del .weather-root
+   e il colore dei blob decorativi ::before e ::after.
+   La classe viene applicata dinamicamente in base all'ora del giorno
+   calcolata da getTimeOfDay() confrontando l'orario corrente
+   con alba e tramonto restituiti dall'API. */
+
+/* Notte: blu scurissimo, quasi nero */
 .weather-root.theme-night {
   background: linear-gradient(160deg, #04060f 0%, #0a0f2e 45%, #111830 100%);
 }
@@ -222,6 +263,7 @@ body {
   );
 }
 
+/* Alba: viola scuro → arancione caldo */
 .weather-root.theme-dawn {
   background: linear-gradient(
     160deg,
@@ -246,6 +288,7 @@ body {
   );
 }
 
+/* Giorno: blu cielo */
 .weather-root.theme-day {
   background: linear-gradient(160deg, #0a2a6e 0%, #1a4a9e 40%, #2a6abf 100%);
 }
@@ -264,6 +307,7 @@ body {
   );
 }
 
+/* Tramonto: rosso-arancio con sfumature viola */
 .weather-root.theme-dusk {
   background: linear-gradient(
     160deg,
@@ -288,6 +332,7 @@ body {
   );
 }
 
+/* ── Settings ────────────────────────────────────────────────────────*/
 .back-btn {
   width: 40px;
   height: 40px;
@@ -324,6 +369,7 @@ body {
   margin: 0;
 }
 
+/* Card con le info tecniche del progetto */
 .info-card {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -332,6 +378,8 @@ body {
   backdrop-filter: blur(16px);
 }
 
+/* Separatore tra le righe della info-card,
+   applicato via JS su tutte le righe tranne l'ultima */
 .info-row-border {
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -342,6 +390,7 @@ body {
   color: rgba(255, 255, 255, 0.75);
 }
 
+/* Link rapidi (OpenWeather, GitHub, Source): flex uguale tra loro */
 .settings-link {
   flex: 1;
   background: rgba(255, 255, 255, 0.04);
@@ -357,6 +406,8 @@ body {
   background: rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.8);
 }
+
+/* Variante blu per il link OpenWeather */
 .settings-link--blue {
   color: rgba(130, 160, 255, 0.7);
 }
@@ -364,10 +415,13 @@ body {
   background: rgba(100, 140, 255, 0.1);
   color: rgba(130, 160, 255, 1);
 }
+
 .settings-footer-note {
   font-size: 0.65rem;
   letter-spacing: 0.06em;
 }
+
+/* ── Forecast Cards ──────────────────────────────────────────────────*/
 .forecast-card {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -399,6 +453,8 @@ body {
   color: rgba(255, 255, 255, 0.5);
   text-transform: capitalize;
   margin-bottom: 10px;
+  /* min-height fisso per allineare verticalmente le card
+     anche quando la descrizione va a capo */
   min-height: 32px;
   display: flex;
   align-items: center;
@@ -423,6 +479,7 @@ body {
   color: rgba(130, 180, 255, 0.7);
   margin-top: 8px;
 }
+
 .section-label {
   font-family: "DM Mono", monospace;
   font-size: 0.7rem;
@@ -431,17 +488,22 @@ body {
   text-transform: uppercase;
   margin-bottom: 16px;
 }
+
+/* ── Footer ──────────────────────────────────────────────────────────*/
 .weather-footer {
   position: relative;
-  z-index: 1;
+  z-index: 1; /* sopra i blob decorativi */
   padding: 0 2rem 2rem;
 }
+
 .footer-divider {
   border: none;
   border-top: 1px solid rgba(255, 255, 255, 0.07);
   margin-bottom: 1.5rem;
 }
 
+/* Layout footer: brand a sinistra, orario al centro, copyright+link a destra.
+   flex-wrap per adattarsi su schermi stretti. */
 .footer-inner {
   display: flex;
   align-items: center;
@@ -477,6 +539,7 @@ body {
   text-transform: uppercase;
 }
 
+/* L'orario specifico è più luminoso rispetto al testo "Last updated at" */
 .footer-center span {
   color: rgba(255, 255, 255, 0.5);
 }
